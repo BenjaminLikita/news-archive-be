@@ -24,30 +24,64 @@ export class AppService {
 
       const page = await browser.newPage()
 
-      await page.goto("https://www.bbc.com/", {
+      await page.goto("https://www.bbc.com/news/world/", {
         timeout: 2 * 60 * 60 * 1000,
         waitUntil: "networkidle2"
       })
       
-      const divs = await page.$$eval("[data-testid='card-headline']", options => {
-        return options.map(option => option[0].href)
+      const link = await page.$$eval("[data-testid='london-card'] > [data-testid='london-article'] > div > a[data-testid='internal-link']", options => {
+        return options.map(option => option.href)
       })
-      console.log(divs)
-      // await page.screenshot({path: `./src/uploads/${datePath}/${date.getTime()}.jpg`})
+      const text = await page.$$eval("[data-testid='card-headline']", options => {
+        return options.map(option => option.textContent)
+      })
       
-      await page.goto("https://www.aljazeera.com/", {
-        timeout: 2 * 60 * 60 * 1000,
-        waitUntil: "networkidle2"
-      })
+      const imageName = `${date.getTime()}.jpg`
+      await page.screenshot({path: `./src/uploads/${datePath}/${imageName}`})
 
+      
+      
+      // await page.goto("https://www.aljazeera.com/", {
+      //   timeout: 2 * 60 * 60 * 1000,
+      //   waitUntil: "networkidle2"
+      // })
+      
       await browser.close()
-      const data = await this.prisma.headlines.findMany()
-      console.log(data)
+
+      const data = await this.prisma.headlines.create({
+        data: {
+          headline: text[0],
+          imageUrl: `/${datePath}/${imageName}`,
+          url: link[0]
+        }
+      })
+      // const data = await this.prisma.headlines.findMany()
       return data
     } catch(err){
       console.log("An error Occured", err)
-      // this.autoScrape()
       return "An error Occured"
     }
+  }
+
+  
+  async getHeadlines(param: {date: string}){
+    const split = param.date.split("-")
+    if(split.length !== 3 || split.includes("")) return "Invalid Date Usage: YYYY/M/D"
+    const startDate = new Date(param.date)
+    const endDate = new Date(param.date);
+
+    startDate.setHours(1, 0, 0, 0); // Sets time to 00:00:00
+    endDate.setHours(24, 59, 59, 999); // Sets time to 23:59:59
+
+    // const headlines = await this.prisma.headlines.findMany()
+    const headlines = await this.prisma.headlines.findMany({
+      where: {
+        createdAt: {
+          gte: startDate,
+          lte: endDate
+        }
+      }
+    })
+    return headlines
   }
 }

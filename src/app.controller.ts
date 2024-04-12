@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { AppService } from './app.service';
 import { Cron, Interval } from '@nestjs/schedule';
+import { Response } from 'express';
 
 
 @Controller()
@@ -12,30 +13,24 @@ export class AppController {
     return this.appService.getHello();
   }
   
-  @Post("puppett")
-  async pupe(@Body() body: any){
-
-    const date = new Date()
-    const datePath = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    // const browser = await puppeteer.launch()
-
-    // const page = await browser.newPage()
-
-    // await page.goto("https://www.foxnews.com/")
-    // await page.goto("https://google.com/")
-    // await page.screenshot({path: `./src/uploads/${datepath}/image.jpg`})
-
-    // await browser.close()
-    // return this.prisma.headlines.findMany()
+  // @Interval(15000)
+  // @Cron("*/2 * * * *")
+  @Post("scrape")
+  async autoScrape(@Body() body: any){
     return this.appService.autoScrape()
   }
 
-  // @Interval(15000)
-  // @Cron("*/2 * * * *")
-  @Post("puppet")
-  async puper(@Body() body: any){
-  // handleCron() {
-    console.log("hello")
-    return this.appService.autoScrape()
+  @Get("image/:src")
+  getImage(@Param() src: string, @Res() res: Response){
+    return res.sendFile(`/src/uploads/2024-4-11/1712830635156.jpg`, { root: "." })
+  }
+  @Get("image/:date/:imageName")
+  getImagee(@Param() param: {date: string, imageName: string}, @Res() res: Response){
+    return res.sendFile(`/src/uploads/${param.date}/${param.imageName}`, { root: "." })
+  }
+
+  @Get("/headlines/:date")
+  getHeadlines(@Param() param: {date: string}){
+    return this.appService.getHeadlines(param)
   }
 }
