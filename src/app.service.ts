@@ -18,9 +18,9 @@ export class AppService {
       const dirExists = existsSync(__dirname + `/../src/uploads/${datePath}`)
       if(!dirExists) mkdirSync(__dirname + `/../src/uploads/${datePath}`)
 
-      const browser = await puppeteer.launch({
-        headless: false
-      })
+        console.log("Launched1")
+      const browser = await puppeteer.launch()
+      console.log("Launched2")
 
       const page = await browser.newPage()
 
@@ -29,7 +29,7 @@ export class AppService {
         waitUntil: "networkidle2"
       })
       
-      const link = await page.$$eval("[data-testid='london-card'] > [data-testid='london-article'] > div > a[data-testid='internal-link']", options => {
+      const link = await page.$$eval("a[data-testid='external-anchor']", options => {
         return options.map(option => option.href)
       })
       const text = await page.$$eval("[data-testid='card-headline']", options => {
