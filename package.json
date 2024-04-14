@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/schedule": "^4.0.1",
     "@prisma/client": "^5.12.1",
+    "dotenv": "^16.4.5",
     "prisma": "^5.12.1",
     "puppeteer": "^22.6.3",
     "reflect-metadata": "^0.2.0",

@@ -18,7 +18,13 @@ export class AppService {
     if(!dirExists) mkdirSync(__dirname + `/../src/uploads/${datePath}`)
 
     const browser = await puppeteer.launch({
-
+      args: [
+        '--disable-setuid-sandbox',
+        '--no-sandbox',
+        '--single-process',
+        '--no-zygote'
+      ],
+      executablePath: process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath()
     })
 
     try{
@@ -52,11 +58,13 @@ export class AppService {
         data: {
           headline: text[0],
           imageUrl: `/${datePath}/${imageName}`,
-          url: link[0]
+          url: link.length ? link[0] : "https://www.bbc.com/news/world/"
         }
       })
-      // const data = await this.prisma.headlines.findMany()
+      
+      
       return data
+      
     } catch(err){
       console.log("An error Occured", err)
       return "An error Occured"
