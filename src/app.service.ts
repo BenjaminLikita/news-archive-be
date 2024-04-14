@@ -32,7 +32,7 @@ export class AppService {
       const page = await browser.newPage()
 
       await page.goto("https://www.bbc.com/news/world/", {
-        timeout: 2 * 60 * 60 * 1000,
+        timeout: 3 * 60 * 1000,
         waitUntil: "networkidle2"
       })
       
