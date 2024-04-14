@@ -11,16 +11,17 @@ export class AppService {
   }
 
   async autoScrape() {
+    
+    const date = new Date()
+    const datePath = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+    const dirExists = existsSync(__dirname + `/../src/uploads/${datePath}`)
+    if(!dirExists) mkdirSync(__dirname + `/../src/uploads/${datePath}`)
+
+    const browser = await puppeteer.launch({
+
+    })
 
     try{
-      const date = new Date()
-      const datePath = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-      const dirExists = existsSync(__dirname + `/../src/uploads/${datePath}`)
-      if(!dirExists) mkdirSync(__dirname + `/../src/uploads/${datePath}`)
-
-        console.log("Launched1")
-      const browser = await puppeteer.launch()
-      console.log("Launched2")
 
       const page = await browser.newPage()
 
@@ -46,8 +47,7 @@ export class AppService {
       //   waitUntil: "networkidle2"
       // })
       
-      await browser.close()
-
+      
       const data = await this.prisma.headlines.create({
         data: {
           headline: text[0],
@@ -60,6 +60,8 @@ export class AppService {
     } catch(err){
       console.log("An error Occured", err)
       return "An error Occured"
+    } finally {
+      await browser.close()
     }
   }
 

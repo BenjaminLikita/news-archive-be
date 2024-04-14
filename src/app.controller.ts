@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Param, Post, Res } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Cron, Interval } from '@nestjs/schedule';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { Response } from 'express';
 
 
@@ -13,10 +13,14 @@ export class AppController {
     return this.appService.getHello();
   }
   
-  // @Interval(15000)
-  // @Cron("*/2 * * * *")
+  @Cron(CronExpression.EVERY_7_HOURS)
+  async autoScrape(){
+    return this.appService.autoScrape()
+  }
+  
   @Post("scrape")
-  async autoScrape(@Body() body: any){
+  @Cron(CronExpression.EVERY_7_HOURS)
+  async testScrape(){
     return this.appService.autoScrape()
   }
 
