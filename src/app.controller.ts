@@ -19,7 +19,6 @@ export class AppController {
   }
   
   @Post("scrape")
-  @Cron(CronExpression.EVERY_7_HOURS)
   async testScrape(){
     return this.appService.autoScrape()
   }
