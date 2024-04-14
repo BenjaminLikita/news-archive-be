@@ -23,10 +23,6 @@ export class AppController {
     return this.appService.autoScrape()
   }
 
-  @Get("image/:src")
-  getImage(@Param() src: string, @Res() res: Response){
-    return res.sendFile(`/src/uploads/2024-4-11/1712830635156.jpg`, { root: "." })
-  }
   @Get("image/:date/:imageName")
   getImagee(@Param() param: {date: string, imageName: string}, @Res() res: Response){
     return res.sendFile(`/src/uploads/${param.date}/${param.imageName}`, { root: "." })
