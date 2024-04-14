@@ -11,4 +11,6 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
+RUN npx prisma generate
+
 CMD [ "yarn", "run", "start" ]
