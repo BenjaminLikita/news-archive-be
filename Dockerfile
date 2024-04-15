@@ -5,7 +5,7 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 
 WORKDIR /app
 
-COPY pacakge.json .
+COPY package.json .
 
 COPY yarn.lock .
 
