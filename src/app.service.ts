@@ -26,7 +26,7 @@ export class AppService {
         '--no-zygote'
       ],
       // executablePath: process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath()
-      executablePath: puppeteer.executablePath()
+      executablePath: process.env.PUPPETEER_EXECUTABLE_PATH ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath()
     })
 
     try{
