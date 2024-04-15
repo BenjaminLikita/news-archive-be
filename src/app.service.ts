@@ -15,8 +15,8 @@ export class AppService {
     
     const date = new Date()
     const datePath = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    const dirExists = existsSync(__dirname + `/../src/uploads/${datePath}`)
-    if(!dirExists) mkdirSync(__dirname + `/../src/uploads/${datePath}`)
+    const dirExists = existsSync(resolve(`./src/uploads/${datePath}`))
+    if(!dirExists) mkdirSync(resolve(`./src/uploads/${datePath}`))
 
       console.log(puppeteer.executablePath())
     const browser = await puppeteer.launch({
