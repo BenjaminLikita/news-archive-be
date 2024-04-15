@@ -17,6 +17,7 @@ export class AppService {
     const dirExists = existsSync(__dirname + `/../src/uploads/${datePath}`)
     if(!dirExists) mkdirSync(__dirname + `/../src/uploads/${datePath}`)
 
+      console.log(puppeteer.executablePath())
     const browser = await puppeteer.launch({
       args: [
         '--disable-setuid-sandbox',
@@ -24,7 +25,8 @@ export class AppService {
         '--single-process',
         '--no-zygote'
       ],
-      executablePath: process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath()
+      // executablePath: process.env.NODE_ENV === 'production' ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath()
+      executablePath: puppeteer.executablePath()
     })
 
     try{
