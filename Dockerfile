@@ -15,4 +15,4 @@ COPY . .
 
 RUN npx prisma generate
 
-CMD [ "yarn", "run", "start:dev" ]
+CMD [ "yarn", "run", "start" ]
