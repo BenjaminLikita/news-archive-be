@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import puppeteer from 'puppeteer';
 import { existsSync, mkdirSync } from 'fs';
+import { resolve } from 'path';
 
 @Injectable()
 export class AppService {
@@ -46,7 +47,7 @@ export class AppService {
       })
       
       const imageName = `${date.getTime()}.jpg`
-      await page.screenshot({path: `./src/uploads/${datePath}/${imageName}`})
+      await page.screenshot({path: resolve(`./src/uploads/${datePath}/${imageName}`)})
 
       
       
