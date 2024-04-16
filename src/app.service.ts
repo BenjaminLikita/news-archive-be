@@ -15,8 +15,8 @@ export class AppService {
     
     const date = new Date()
     const datePath = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    const dirExists = existsSync(homedir() + `/app/src/uploads/${datePath}`)
-    if(!dirExists) mkdirSync(homedir() + `/app/src/uploads/${datePath}`)
+    const dirExists = existsSync(homedir() + `/src/uploads/${datePath}`)
+    if(!dirExists) mkdirSync(homedir() + `/src/uploads/${datePath}`)
 
       console.log(puppeteer.executablePath())
     const browser = await puppeteer.launch({
@@ -47,7 +47,7 @@ export class AppService {
       })
       
       const imageName = `${date.getTime()}.jpg`
-      await page.screenshot({path: homedir() + `/app/src/uploads/${datePath}`})
+      await page.screenshot({path: homedir() + `/src/uploads/${datePath}`})
 
       
       
