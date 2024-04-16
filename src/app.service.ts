@@ -2,14 +2,12 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from './prisma/prisma.service';
 import puppeteer from 'puppeteer';
 import { existsSync, mkdirSync } from 'fs';
-import { join, resolve } from 'path';
 import { homedir } from 'os';
 
 @Injectable()
 export class AppService {
   constructor(private prisma: PrismaService) {}
   getHello(): string {
-    console.log(join(homedir(), __dirname, "../", "src/uploads"))
     return 'Hello World!';
   }
 
@@ -17,8 +15,8 @@ export class AppService {
     
     const date = new Date()
     const datePath = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    const dirExists = existsSync(join(homedir(), __dirname, "../", `src/uploads/${datePath}`))
-    if(!dirExists) mkdirSync(join(homedir(), __dirname, "../", `src/uploads/${datePath}`))
+    const dirExists = existsSync(homedir() + `/app/src/uploads/${datePath}`)
+    if(!dirExists) mkdirSync(homedir() + `/app/src/uploads/${datePath}`)
 
       console.log(puppeteer.executablePath())
     const browser = await puppeteer.launch({
@@ -49,7 +47,7 @@ export class AppService {
       })
       
       const imageName = `${date.getTime()}.jpg`
-      await page.screenshot({path: join(homedir(), __dirname, `src/uploads/${datePath}/${imageName}`)})
+      await page.screenshot({path: homedir() + `/app/src/uploads/${datePath}`})
 
       
       
