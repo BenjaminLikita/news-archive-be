@@ -9,7 +9,7 @@ import { homedir } from 'os';
 export class AppService {
   constructor(private prisma: PrismaService) {}
   getHello(): string {
-    console.log(join(homedir(), __dirname, "src/uploads"))
+    console.log(join(homedir(), __dirname, "../", "src/uploads"))
     return 'Hello World!';
   }
 
@@ -17,8 +17,8 @@ export class AppService {
     
     const date = new Date()
     const datePath = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    const dirExists = existsSync(join(homedir(), __dirname, `src/uploads/${datePath}`))
-    if(!dirExists) mkdirSync(join(homedir(), __dirname, `src/uploads/${datePath}`))
+    const dirExists = existsSync(join(homedir(), __dirname, "../", `src/uploads/${datePath}`))
+    if(!dirExists) mkdirSync(join(homedir(), __dirname, "../", `src/uploads/${datePath}`))
 
       console.log(puppeteer.executablePath())
     const browser = await puppeteer.launch({
