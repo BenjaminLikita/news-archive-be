@@ -3,6 +3,7 @@ import { PrismaService } from './prisma/prisma.service';
 import puppeteer from 'puppeteer';
 import { existsSync, mkdirSync } from 'fs';
 import { homedir } from 'os';
+import { join } from 'path';
 
 @Injectable()
 export class AppService {
@@ -15,8 +16,8 @@ export class AppService {
     
     const date = new Date()
     const datePath = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
-    const dirExists = existsSync(homedir() + `/src/uploads/${datePath}`)
-    if(!dirExists) mkdirSync(homedir() + `/src/uploads/${datePath}`)
+    const dirExists = existsSync(join(__dirname, "../", `/src/uploads/${datePath}`))
+    if(!dirExists) mkdirSync(join(__dirname, "../", `/src/uploads/${datePath}`))
 
       console.log(puppeteer.executablePath())
     const browser = await puppeteer.launch({
@@ -47,7 +48,7 @@ export class AppService {
       })
       
       const imageName = `${date.getTime()}.jpg`
-      await page.screenshot({path: homedir() + `/src/uploads/${datePath}`})
+      await page.screenshot({path: `./src/uploads/${datePath}/${imageName}`})
 
       
       
@@ -57,16 +58,16 @@ export class AppService {
       // })
       
       
-      const data = await this.prisma.headlines.create({
-        data: {
-          headline: text[0],
-          imageUrl: `/${datePath}/${imageName}`,
-          url: link.length ? link[0] : "https://www.bbc.com/news/world/"
-        }
-      })
+      // const data = await this.prisma.headlines.create({
+      //   data: {
+      //     headline: text[0],
+      //     imageUrl: `/${datePath}/${imageName}`,
+      //     url: link.length ? link[0] : "https://www.bbc.com/news/world/"
+      //   }
+      // })
       
       
-      return data
+      // return data
       
     } catch(err){
       console.log("An error Occured", err)
