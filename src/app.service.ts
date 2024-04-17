@@ -40,7 +40,7 @@ export class AppService {
         waitUntil: "networkidle2"
       })
       
-      const link = await page.$$eval("a[data-testid='external-anchor']", options => {
+      const link = await page.$$eval("a[data-testid='external-ancho", options => {
         return options.map(option => option.href)
       })
       const text = await page.$$eval("[data-testid='card-headline']", options => {
@@ -58,16 +58,16 @@ export class AppService {
       // })
       
       
-      // const data = await this.prisma.headlines.create({
-      //   data: {
-      //     headline: text[0],
-      //     imageUrl: `/${datePath}/${imageName}`,
-      //     url: link.length ? link[0] : "https://www.bbc.com/news/world/"
-      //   }
-      // })
+      const data = await this.prisma.headlines.create({
+        data: {
+          headline: text[0],
+          imageUrl: `/${datePath}/${imageName}`,
+          url: link.length ? link[0] : "https://www.bbc.com/news/world/"
+        }
+      })
       
       
-      // return data
+      return data
       
     } catch(err){
       console.log("An error Occured", err)
